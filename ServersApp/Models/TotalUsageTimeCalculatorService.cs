@@ -14,10 +14,10 @@ namespace ServersApp.Models
         {
             //Используем нечто типа map-reduce. Сначала соберем массив пар (время, изменение кол-ва серверов - +1 или -1)
             var timesMap = servers.Select(x => new Tuple<DateTime, short>(x.CreateDateTime, 1))
-                .Union(servers.Where(x => x.RemovedDateTime.HasValue)
+                .Concat(servers.Where(x => x.RemovedDateTime.HasValue)
                     .Select(x => new Tuple<DateTime, short>(x.RemovedDateTime.Value, -1))).OrderBy(x => x.Item1).ToArray();
 
-            //Теперь пробежимся по массиву. Будем смотреть кол-во серверов в диапазонах времен и прибавлять к результату, если оно больше 0
+            //Теперь пробежимся по массиву. Будем смотреть кол-во серверов в диапазонах времен и прибавлять время к результату, если оно больше 0
             var result = TimeSpan.Zero;
             var serversCount = 0;
             for (var i = 0; i < timesMap.Length; i++)

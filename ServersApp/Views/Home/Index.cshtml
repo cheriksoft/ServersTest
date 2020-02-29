@@ -1,3 +1,65 @@
 ﻿@{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "Servers List";
+}
+
+<div id="ViewModelContainer">
+    <table class="table">
+        <thead>
+        <tr>
+            <th>CurrentDateTime</th>
+            <td colspan="3" data-bind="text:CurrentDateTime"></td>
+        </tr>
+        <tr>
+            <th>TotalUsageTime</th>
+            <td colspan="3" data-bind="text:TotalUsageTime"></td>
+           
+        </tr>
+
+        <tr>
+            <th>VirtualServerId</th>
+            <th>CreateDateTime</th>
+            <th>RemoveDateTime</th>
+            <th>SelectedForRemove</th>
+        </tr>
+        </thead>
+        <tbody data-bind="foreach:Servers">
+        <tr>
+            <td data-bind="text:VirtualServerId"></td>
+            <td data-bind="text:CreateDateTime"></td>
+            <td data-bind="text:RemoveDateTime"></td>
+            <td>
+                <input type="checkbox" data-bind="visible: !IsRemoved, checked: SelectedForRemove"/>
+            </td>
+        </tr>
+        </tbody>
+        
+        <tr>
+            <td>
+                <button type="button" class="btn btn-success btn-sm" data-bind="click: AddServer">Add</button>
+            </td>
+            <td colspan="2"></td>
+            <td>
+                <button type="button" class="btn btn-danger btn-sm" data-bind="click: RemoveSelectedServers">Remove</button>
+            </td>
+        </tr>
+    </table>
+    
+    
+</div>
+
+
+@section Scripts{
+    <script src="@Url.Content("~/Scripts/Custom/ServersViewModel.js")"></script>
+    <script>
+        $(document).ready(function () {
+            ServersViewModel.Init(
+                '@Url.Action("List", "Home")',
+                '@Url.Action("Create", "Home")',
+                '@Url.Action("Delete", "Home")'
+            );
+
+            ko.applyBindings(ServersViewModel, $("#ViewModelContainer")[0]);
+
+        });
+    </script>
 }

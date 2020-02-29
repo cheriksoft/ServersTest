@@ -7,6 +7,7 @@ using System.Web.Optimization;
 using System.Web.Routing;
 using Castle.MicroKernel.Registration;
 using Castle.Windsor;
+using Datalayer.Factories;
 using Datalayer.Infrastructure;
 using Datalayer.Repositories;
 using ServersApp.Infrastructure;
@@ -32,9 +33,11 @@ namespace ServersApp
                     .Configure(c => c.LifestyleTransient())
                 )
               .Singleton<IDbContextProvider, PerWebRequestDbContextProvider>()
+              .Singleton<IVirtualServerFactory, VirtualServerFactory>()
               .PerRequest<IEntityRepository, EntityRepository>()
               .PerRequest<IVirtualServersModelBuilder, VirtualServersModelBuilder>()
-              .PerRequest<ITotalUsageTimeCalculatorService, TotalUsageTimeCalculatorService>();
+              .PerRequest<ITotalUsageTimeCalculatorService, TotalUsageTimeCalculatorService>()
+              .PerRequest<IVirtualServersHandler, VirtualServersHandler>();
 
             DependencyResolver.SetResolver(
                 serviceType => container.Kernel.HasComponent(serviceType) ? container.Resolve(serviceType) : null,

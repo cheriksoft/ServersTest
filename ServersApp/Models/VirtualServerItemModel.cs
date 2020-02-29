@@ -6,6 +6,7 @@
         public string CreateDateTime { get; set; }
         public string RemoveDateTime { get; set; }
         public bool IsRemoved { get; set; }
+        public bool SelectedForRemove { get; set; }
 
         public VirtualServerItemModel(int virtualServerId, string createDateTime, string removeDateTime, bool isRemoved)
         {
@@ -13,6 +14,7 @@
             CreateDateTime = createDateTime;
             RemoveDateTime = removeDateTime;
             IsRemoved = isRemoved;
+            SelectedForRemove = false;
         }
     }
 }

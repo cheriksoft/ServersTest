@@ -15,7 +15,7 @@ namespace Datalayer.Migrations
         }
 
         /// <summary>
-        /// Если у нас пустая БД - заполним тестовым сервером, созданным час назад
+        /// Если у нас пустая БД - заполним тестовым сервером, созданным 4 и 4-40 назад, как в задаче
         /// </summary>
         /// <param name="context"></param>
         protected override void Seed(Datalayer.ServersDbContext context)
@@ -24,7 +24,8 @@ namespace Datalayer.Migrations
 
             if (entriesCount == 0)
             {
-                context.VirtualServers.Add(new VirtualServer() {CreateDateTime = DateTime.Now.AddHours(-1)});
+                context.VirtualServers.Add(new VirtualServer() {CreateDateTime = DateTime.Now.AddHours(-4).AddMinutes(-40)});
+                context.VirtualServers.Add(new VirtualServer() { CreateDateTime = DateTime.Now.AddHours(-4) });
             }
         }
     }
